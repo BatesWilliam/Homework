@@ -24,36 +24,31 @@ public class CheatActivity extends AppCompatActivity {
     private static final String KEY_CHEATER =
             "cheater";
 
-    /* private static final String SET_TEXT_VALUE ="setTextValue"; */
-
     private boolean mAnswerIsTrue;
     private boolean mAnswerShown;
-
     private TextView mAnswerTextView;
     private Button mShowAnswerButton;
 
-   /* private static final String KEY_ANSWER = "answered";
-    private boolean mA=false; */
-
-    public static Intent newIntent(Context packageContext, boolean answerIsTrue) {
+    public static Intent newIntent(Context packageContext, boolean answerIsTrue)
+    {
         Intent intent = new Intent(packageContext, CheatActivity.class);
         intent.putExtra(EXTRA_ANSWER_IS_TRUE, answerIsTrue);
         return intent;
     }
 
-    public static boolean wasAnswerShown(Intent result) {
+    public static boolean wasAnswerShown(Intent result)
+    {
         return result.getBooleanExtra(EXTRA_ANSWER_SHOWN, false);
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheat);
 
-        /* mAnswerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
-
-        mAnswerTextView = (TextView) findViewById(R.id.answer_text_view); */
-        if(savedInstanceState!=null){
+        if(savedInstanceState!=null)
+        {
             mAnswerShown = savedInstanceState.getBoolean(KEY_CHEATER,false);
             setAnswerShownResult(mAnswerShown);
         }
@@ -62,48 +57,57 @@ public class CheatActivity extends AppCompatActivity {
 
         mAnswerTextView = findViewById(R.id.answer_text_view);
 
-        mShowAnswerButton = (Button) findViewById(R.id.show_answer_button);
-        mShowAnswerButton.setOnClickListener(new View.OnClickListener() {
+        mShowAnswerButton = findViewById(R.id.show_answer_button);
+        mShowAnswerButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if (mAnswerIsTrue) {
+            public void onClick(View v)
+            {
+                if (mAnswerIsTrue)
+                {
                     mAnswerTextView.setText(R.string.true_button);
-                } else {
+                }
+                else
+                {
                     mAnswerTextView.setText(R.string.false_button);
                 }
                 setAnswerShownResult(true);
 
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                {
                     int cx = mShowAnswerButton.getWidth()/2;
                     int cy = mShowAnswerButton.getWidth()/2;
                     float radius = mShowAnswerButton.getWidth();
                     Animator anim = ViewAnimationUtils.createCircularReveal(mShowAnswerButton, cx, cy, radius, 0);
-                    anim.addListener(new AnimatorListenerAdapter() {
+                    anim.addListener(new AnimatorListenerAdapter()
+                    {
                         @Override
-                        public void onAnimationEnd(Animator animation) {
+                        public void onAnimationEnd(Animator animation)
+                        {
                             super.onAnimationCancel(animation);
                             mShowAnswerButton.setVisibility(View.INVISIBLE);
                         }
                     });
                     anim.start();
                 }
-                else{
+                else
+                {
                     mShowAnswerButton.setVisibility(View.INVISIBLE);
                 }
             }
         });
-        /* setAnswerShownResult(mA); */
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
         savedInstanceState.putBoolean(KEY_CHEATER, mAnswerShown);
-        /* savedInstanceState.putString(SET_TEXT_VALUE, mAnswerTextView.getText().toString()); */
     }
 
-    private void setAnswerShownResult(boolean isAnswerShown) {
+    private void setAnswerShownResult(boolean isAnswerShown)
+    {
         mAnswerShown = isAnswerShown;
         Intent data = new Intent();
         data.putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown);
